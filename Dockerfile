@@ -7,6 +7,11 @@ RUN mvn clean package -DskipTests
 # ETAPA 2: Ejecutar el JAR
 FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
+
+# --- ESTO ES LO QUE FALTABA (Instalar Tesseract y español) ---
+RUN apk add --no-cache tesseract-ocr tesseract-ocr-data-spa
+# -------------------------------------------------------------
+
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","app.jar"]
